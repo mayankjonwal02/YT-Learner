@@ -1,4 +1,4 @@
-import { Menu, Home, BarChart, User, Video, Clock, Book, StickyNote } from "lucide-react";
+import { Home, BarChart, User, Video, Clock, Book, StickyNote } from "lucide-react";
 
 const DashboardElements = [
   {

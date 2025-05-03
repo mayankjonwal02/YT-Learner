@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Menu,  LogOut } from "lucide-react";
+import { Menu, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { usePathname, useRouter } from "next/navigation";
@@ -60,6 +60,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 }
 
 function Sidebar({ isSidebarOpen }: { isSidebarOpen: boolean }) {
+  const pathname = usePathname();
+
   return (
     <>
       {/* User Section */}
@@ -71,29 +73,26 @@ function Sidebar({ isSidebarOpen }: { isSidebarOpen: boolean }) {
       {/* Navigation Items */}
       <nav className="flex-1 space-y-2 bg-gradient-to-b from-purple-900 to-purple-950">
         {DashboardElements.map((item) => (
-            <NavItem
-                key={item.id}
-                icon={item.icons}
-                label={item.title}
-                link={item.link}
-                isSidebarOpen={isSidebarOpen}
-                classname={cn(
-                    "flex items-center px-4 py-3 hover:bg-purple-700/50 cursor-pointer transition-all duration-200 rounded-md group",
-                    usePathname() === item.link ? "bg-purple-500/50" : ""
-                )}
-            />
+          <NavItem
+            key={item.id}
+            icon={item.icons}
+            label={item.title}
+            link={item.link}
+            isSidebarOpen={isSidebarOpen}
+            classname={cn(
+              "flex items-center px-4 py-3 hover:bg-purple-700/50 cursor-pointer transition-all duration-200 rounded-md group",
+              pathname === item.link ? "bg-purple-500/50" : ""
+            )}
+          />
         ))}
-         <NavItem
-                key="logout"
-                icon={LogOut}
-                label="Logout"
-                link="/login"
-                isSidebarOpen={isSidebarOpen}
-                classname={cn(
-                    "flex items-center px-4 py-3 hover:bg-purple-700/50 cursor-pointer transition-all duration-200 rounded-md group",
-                   
-                )}
-            />
+        <NavItem
+          key="logout"
+          icon={LogOut}
+          label="Logout"
+          link="/login"
+          isSidebarOpen={isSidebarOpen}
+          classname="flex items-center px-4 py-3 hover:bg-purple-700/50 cursor-pointer transition-all duration-200 rounded-md group"
+        />
       </nav>
     </>
   );
@@ -102,23 +101,24 @@ function Sidebar({ isSidebarOpen }: { isSidebarOpen: boolean }) {
 function NavItem({
   icon: Icon,
   label,
-    link,
+  link,
   isSidebarOpen,
-  classname
+  classname,
 }: {
   icon: React.ComponentType<{ className?: string }>;
   label: string;
-    link: string;
+  link: string;
   isSidebarOpen: boolean;
-    classname?: string;
+  classname?: string;
 }) {
-    const router = useRouter();
+  const router = useRouter();
 
-    const handleClick = () => {
-        router.push(link);
-    };
+  const handleClick = () => {
+    router.push(link);
+  };
+
   return (
-    <div  className={classname} onClick={handleClick}>
+    <div className={classname} onClick={handleClick}>
       <Icon className="w-5 h-5 text-purple-300 group-hover:text-white" />
       {isSidebarOpen && <span className="ml-4 text-sm text-purple-300 group-hover:text-white">{label}</span>}
     </div>
